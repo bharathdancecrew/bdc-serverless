@@ -17,7 +17,13 @@ module.exports = async (req, res) => {
         const newSlot = { from, to, currentReservations: 0, maxReservations: 10 };
 
         const result = await slotsCollection.insertOne(newSlot);
-        res.status(201).json(result.ops[0]);
+        if (result.insertedId) {
+            // Fetch the newly inserted document if necessary
+            const insertedDocument = await slotsCollection.findOne({ _id: result.insertedId });
+            res.status(201).json(insertedDocument);
+        } else {
+            throw new Error("Failed to insert new slot.");
+        }
     } catch (e) {
         console.error(e);
         res.status(500).json({ message: "Error adding slot", error: e.message });
