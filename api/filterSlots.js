@@ -16,9 +16,16 @@ module.exports = async (req, res) => {
         const endDate = new Date(date);
         endDate.setHours(23, 59, 59, 999);
 
+        // Log the start and end dates to ensure they're correct
+        console.log("Fetching slots from:", startDate, "to", endDate);
+
         const slots = await slotsCollection.find({
             from: { $gte: startDate, $lt: endDate }
         }).toArray();
+
+        if (slots.length === 0) {
+            console.log("No slots found for the given date range.");
+        }
 
         res.status(200).json({ slots });
     } catch (e) {
