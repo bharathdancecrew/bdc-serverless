@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
     const userId = req.query.id; // Assume id is passed as query parameter
     try {
         await client.connect();
-        const database = client.db("mydbname");
+        const database = client.db("bdcusers");
         const users = database.collection("users");
 
         const user = await users.findOne({ _id: new ObjectId(userId) });

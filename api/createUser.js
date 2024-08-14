@@ -7,7 +7,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 module.exports = async (req, res) => {
     try {
         await client.connect();
-        const database = client.db("mydbname");
+        const database = client.db("bdcusers");
         const users = database.collection("users");
 
         const user = await users.insertOne(req.body);
